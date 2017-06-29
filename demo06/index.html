@@ -1,0 +1,46 @@
+<html>
+<head>
+</head>
+<body>
+<div id="root"></div>
+<script src="../build/browser.min.js"></script>
+<script src="../build/react.min.js"></script>
+<script src="../build/react-dom.min.js"></script>
+<script type="text/babel">
+/*
+    列表和键值
+    https://facebook.github.io/react/docs/lists-and-keys.html
+    1.通过map函数可以输出列表
+    2.每一个列表最好有key值
+      key值应该要在循环数组上
+      key值在同级元素中必须唯一，但不必全局唯一
+    3.阻止渲染：提早return null即可
+*/
+
+class NumberList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const numbers = this.props.numbers;
+    const listItems = numbers.map((number) =>
+      <li key={number.toString()}>{number}</li>
+    );
+    return (
+      <ul>{listItems}</ul>
+    );
+  }
+}
+
+const numbers = [1, 2, 3, 4, 5];
+
+const element = <NumberList numbers={numbers} />;
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+</script>
+</body>
+</html>
