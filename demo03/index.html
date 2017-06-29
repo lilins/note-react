@@ -1,0 +1,70 @@
+<html>
+<head>
+</head>
+<body>
+<div id="root"></div>
+<script src="../build/browser.min.js"></script>
+<script src="../build/react.min.js"></script>
+<script src="../build/react-dom.min.js"></script>
+<script type="text/babel">
+/*
+    State和生命周期
+    https://facebook.github.io/react/docs/state-and-lifecycle.html
+    1.Clock 组件：
+      constructor 当中可以继承props、定义state
+    2.componentDidMount()是组件渲染之后的操作
+    3.componentWillUnmount()是组件渲染之前的操作
+    4.State 定义要在constructor定义
+      State 赋值要用this.setState({})函数，不允许直接赋值
+      State 是异步的，所以需要使用上一个值可以用prevState
+    5.State与props的区别？
+      State可以赋值，props不可以
+*/
+
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date(),
+      other: new Date()
+    };
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      1000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState((prevState,props)=>({
+      date: new Date(),
+      other: prevState.date
+    }));
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello, world!</h1>
+        <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+        <h3>prevState: {this.state.other.toLocaleTimeString()}</h3>
+      </div>
+    );
+  }
+}
+
+const element = <Clock />;
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+</script>
+</body>
+</html>

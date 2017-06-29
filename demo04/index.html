@@ -1,0 +1,51 @@
+<html>
+<head>
+</head>
+<body>
+<div id="root"></div>
+<script src="../build/browser.min.js"></script>
+<script src="../build/react.min.js"></script>
+<script src="../build/react-dom.min.js"></script>
+<script type="text/babel">
+/*
+    处理事件
+    https://facebook.github.io/react/docs/handling-events.html
+    1.handleClick 事件处理：
+      事件本身一定要绑定bind(this)
+      e 是event
+      e.preventDefault(); 用于阻止事件
+      
+*/
+
+class Toggle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {isToggleOn: true};
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
+  }
+
+  render() {
+    return (
+      <button onClick={this.handleClick}>
+        {this.state.isToggleOn ? 'ON' : 'OFF'}
+      </button>
+    );
+  }
+}
+
+const element = <Toggle />;
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<html>
+<head>
+</head>
+<body>
+<div id="root"></div>
+<script src="../build/browser.min.js"></script>
+<script src="../build/react.min.js"></script>
+<script src="../build/react-dom.min.js"></script>
+<script type="text/babel">
+/*
+    demo02：组件与属性
+    https://facebook.github.io/react/docs/components-and-props.html
+    1.Welcome 是React的组件
+      组件可以复用（在element当中）
+      组件可以嵌套
+    2.props 是一些特性
+    3.element 这里同样是JSX
+    4.推荐使用Class(ES6)
+*/
+
+// function Welcome(props) {
+//   return <h1>Hello, {props.name}</h1>;
+// }
+
+
+class Hello extends React.Component {
+  render() {
+    return <span>Hello, </span>;
+  }
+}
+
+class Welcome extends React.Component {
+  render() {
+    return (<h1><Hello />
+    {this.props.name}
+    </h1>);
+  }
+}
+
+class End extends React.Component {
+  render() {
+    return <p>Welcome</p>;
+  }
+}
+
+const element = (
+  <div>
+    <Welcome name="Sara" />
+    <Welcome name="Gary" />
+    <Welcome name="Lucy" />
+    <End />
+  </div>
+);
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+</script>
+</body>
+</html>

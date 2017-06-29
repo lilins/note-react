@@ -1,0 +1,43 @@
+<html>
+<head>
+</head>
+<body>
+<div id="root"></div>
+<script src="../build/browser.min.js"></script>
+<script src="../build/react.min.js"></script>
+<script src="../build/react-dom.min.js"></script>
+<script type="text/babel">
+/*
+    demo01：JSX的语法
+    https://facebook.github.io/react/docs/introducing-jsx.html
+    https://facebook.github.io/react/docs/rendering-elements.html
+    1.element 是JSX的表达式
+      element 可以加入一些Attributes
+      element 可以使用JS的表达式
+      element 使用JS表达式，要用{}
+*   2.ReactDOM 负责渲染
+*/
+
+function formatName(user) {
+  return user.firstName + ' ' + user.lastName;
+}
+
+const user = {
+  firstName: 'Harper',
+  lastName: 'Perez'
+};
+
+const element = (
+  <h1>
+    Hello, {formatName(user)}!
+    <span id={user.firstName}></span>
+  </h1>
+);
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+</script>
+</body>
+</html>
