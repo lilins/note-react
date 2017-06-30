@@ -1,0 +1,158 @@
+<html>
+<head>
+</head>
+<body>
+<style>
+.red{
+  color:red;
+}
+  </style>
+<div id="root"></div>
+<script src="../build/browser.min.js"></script>
+<script src="../build/react.min.js"></script>
+<script src="../build/react-dom.min.js"></script>
+<script type="text/babel">
+/*
+    小实验
+    https://facebook.github.io/react/docs/thinking-in-react.html
+    1.分为以下组件：
+    - 搜索框
+    - 点选框
+    - 列表项
+    - 表格
+    - App
+    2.逻辑处理在ListItem中完成
+    3.数据传输在App中完成
+*/
+const json = [
+  {category: "Sporting Goods", price: "$49.99", stocked: true, name: "Football"},
+  {category: "Sporting Goods", price: "$9.99", stocked: true, name: "Baseball"},
+  {category: "Sporting Goods", price: "$29.99", stocked: false, name: "Basketball"},
+  {category: "Electronics", price: "$99.99", stocked: true, name: "iPod Touch"},
+  {category: "Electronics", price: "$399.99", stocked: false, name: "iPhone 5"},
+  {category: "Electronics", price: "$199.99", stocked: true, name: "Nexus 7"}
+];
+
+class SearchInput extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {text:""}
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e){
+    this.setState({text:e.target.value})
+    this.props.onInputChange(e.target.value)
+  }
+
+  render(){
+    return (
+      <input 
+      value={this.state.text}
+      onChange={this.handleChange} />
+    )
+  }
+}
+
+class CheckBox extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {on:""}
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e){
+    this.state = {on:e.target.checked}
+    this.props.onInputChange(e.target.checked)
+  }
+
+  render(){
+    return (
+      <div>
+        <input 
+        type="checkbox"
+        checked={this.state.on}
+        onChange={this.handleChange} />
+        <span>只显示stock</span>
+      </div>
+    )
+  }
+}
+
+function ListItem(props){
+  const data = props.data;
+  const listItems = data.map((item) =>{
+      let style = item.stocked?"":"red",
+          val = '',
+          flag = (item.category === props.category)&&(~item.name.indexOf(props.filter));
+      if(props.stocked){
+        flag = flag && (item.stocked === true);
+      }
+      if(flag){
+        val = <li className={style} key={item.name.toString()}>{item.name}{item.price}</li>
+      }
+      return val
+  });
+  return (
+    <div>
+      <h3>{props.category}</h3>
+      <ul>{listItems}</ul>
+    </div>
+  );
+}
+
+class Table extends React.Component{
+  constructor(props){
+    super(props)
+  }
+
+  render(){
+    const stocked = this.props.stocked,
+          filter = this.props.filter;
+    return (
+      <div>
+        <ListItem data={json} category='Sporting Goods' stocked={stocked} filter={filter}/>
+        <ListItem data={json} category='Electronics' stocked={stocked} filter={filter}/>
+      </div>
+    )
+  }
+}
+
+class App extends React.Component {
+    constructor(props){
+    super(props)
+    this.state = {filter:'',stocked:''}
+    this.handleInput = this.handleInput.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
+  }
+  handleInput(filter){
+    this.setState({filter:filter})
+  }
+  handleCheck(stocked){
+    this.setState({stocked:stocked})
+  }
+
+  render(){
+    return (
+      <div>
+        <SearchInput onInputChange={this.handleInput}/>
+        <CheckBox  onInputChange={this.handleCheck}/>
+        <Table stocked={this.state.stocked} filter={this.state.filter}/>
+      </div>
+    )
+  }
+}
+
+const element = (
+      <div>
+        <App />
+      </div>
+);
+
+ReactDOM.render(
+  element,
+  document.getElementById('root')
+);
+</script>
+</body>
+</html>
