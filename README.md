@@ -49,5 +49,3 @@
 
 相关[State and Lifecycle](https://facebook.github.io/react/docs/state-and-lifecycle.html)
 
-
-
